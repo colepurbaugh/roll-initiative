@@ -1,3 +1,5 @@
+var readlineSync = require('readline-sync');
+
 var bug = {
   name: "Bugbear",
   hp: [5, 8, 0],
@@ -188,36 +190,42 @@ var zom = {
   stats: [1, -2, 3, -4, -2, -1]
 }
 
+//Calculates and returns initiative value of "creature"
 var initiative = function (creature){
+  creature = eval(creature);
   var roll = Math.floor(Math.random() * (20 - 1)) + 1;
-  //var roll = parseInt(Math.random() * 20);
-  var mod = creature.stats[1];
-  return (roll + mod);
+  var modifier = creature.stats[1];
+  return (roll + modifier);
 }
 
+//Calculates and returns hit points of "creature"
 var hitPoints = function (creature){
+  creature = eval(creature);
   var tempDie = 0;
   var hpTotal = 0;
-  //console.log(creature.hp[0], 'd', creature.hp[1], '+', creature.hp[2]);
   for (var i = 0; i < (creature.hp[0]); i++){
     tempDie = Math.floor(Math.random() * (creature.hp[1] - 1)) + 1;
-    //console.log("die ", i, "equals", tempDie);
     hpTotal += tempDie;
   };
-  //console.log('plus ', creature.hp[2]);
   return hpTotal + creature.hp[2];
 }
 
 //creature is the first three letters of the creature's name
 //x is how many creatures you want to spawn
 var spawn = function(creature, x){
+  creature = eval(creature);
   console.log(creature.name, "stats |", "Str:", creature.stats[0], "|", "Dex", creature.stats[1], "|", "Con", creature.stats[2], "|", "Int", creature.stats[3], "|", "Wis", creature.stats[4], "|", "Cha",creature.stats[5], "|", "AC", creature.ac, "|");
   for(i = 0; i < x; i++){
     console.log(creature.name, i, ":", "initiative =", initiative(creature), ",", "hit points =", hitPoints(creature));
   }
   console.log("XP total:", x * creature.xp);
 }
-console.log("how many creatures do you want?");
-var response = readline();
 
-spawn(you, 5);
+
+
+while(true){
+  var creatureQueryName = readlineSync.question('What Creature? ');
+  var creatureQueryQuantity = readlineSync.question('How Many? ');
+  spawn(creatureQueryName, creatureQueryQuantity);
+}
+
