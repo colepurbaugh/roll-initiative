@@ -213,19 +213,25 @@ var hitPoints = function (creature){
 //creature is the first three letters of the creature's name
 //x is how many creatures you want to spawn
 var spawn = function(creature, x){
+  console.log("*************************************************************************");
   creature = eval(creature);
-  console.log(creature.name, "stats |", "Str:", creature.stats[0], "|", "Dex", creature.stats[1], "|", "Con", creature.stats[2], "|", "Int", creature.stats[3], "|", "Wis", creature.stats[4], "|", "Cha",creature.stats[5], "|", "AC", creature.ac, "|");
+  console.log("Str", creature.stats[0], "|", "Dex", creature.stats[1], "|", "Con", creature.stats[2], "|", "Int", creature.stats[3], "|", "Wis", creature.stats[4], "|", "Cha",creature.stats[5], "|", "AC", creature.ac, "|");
   for(i = 0; i < x; i++){
-    console.log(creature.name, i, ":", "initiative =", initiative(creature), ",", "hit points =", hitPoints(creature));
+    console.log(creature.name, i, ":", "init =", initiative(creature), ",", "hp =", hitPoints(creature));
   }
-  console.log("XP total:", x * creature.xp);
+  console.log("XP total: ", x * creature.xp, "for all ", creature.name);
+  console.log("*************************************************************************");
 }
 
 
-
 while(true){
-  var creatureQueryName = readlineSync.question('What Creature? ');
-  var creatureQueryQuantity = readlineSync.question('How Many? ');
-  spawn(creatureQueryName, creatureQueryQuantity);
+  try {
+    var creatureQueryName = readlineSync.question('What Creature? ');
+    var creatureQueryQuantity = readlineSync.question('How Many? ');
+    spawn(creatureQueryName, creatureQueryQuantity);
+  } 
+  catch (err) {
+    console.log("This is an unacceptable input")
+  }
 }
 
